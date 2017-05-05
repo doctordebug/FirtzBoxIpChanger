@@ -2,12 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
 
 /**
+ *
  * Created by olisa_000 on 05.05.17.
  */
 public class ConnectionGui extends JFrame implements ActionListener{
@@ -17,12 +14,12 @@ public class ConnectionGui extends JFrame implements ActionListener{
     private JTextField ipTxt;
     private JTextArea logArea;
 
-    public ConnectionGui(){
+    ConnectionGui(){
         setLayout(new BorderLayout());
 
         Container c = getContentPane();
 
-        ipTxt = new JTextField("aktuelle ip:");
+        ipTxt = new JTextField("");
         ipTxt.setEditable(false);
         c.add(ipTxt,BorderLayout.NORTH);
 
@@ -35,10 +32,10 @@ public class ConnectionGui extends JFrame implements ActionListener{
         reconnectBtn.addActionListener(this);
         c.add(reconnectBtn,BorderLayout.SOUTH);
 
-        setTitle("Olis reconnect");
+        setTitle("Fritz!Box reconnect");
         setSize(400,400);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     }
 
@@ -46,7 +43,7 @@ public class ConnectionGui extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         logArea.append(FritzUtils.reconnect()+"\n");
         ipTxt.setText("getting new ip");
-        Runnable r = () -> {new FritzUtils().getIp(ipTxt); logArea.append("new IP found!\n");};
+        Runnable r = () -> {FritzUtils.getIp(ipTxt); logArea.append("new IP found!\n");};
         new Thread(r).start();
     }
 
